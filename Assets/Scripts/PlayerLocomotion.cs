@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerLocomotion : MonoBehaviour
@@ -11,7 +9,7 @@ public class PlayerLocomotion : MonoBehaviour
     [HideInInspector]
     public Transform myTransform;
 
-    public new Rigidbody rigidbody;
+    Rigidbody rb;
     public GameObject normalCamera;
 
     [Header("Stats")]
@@ -21,11 +19,11 @@ public class PlayerLocomotion : MonoBehaviour
     float rotSpeed = 10;
 
     States currentState;
-    public enum States{Normal, Jump};
+    public enum States{ Normal, Jump }; 
 
     private void Start() 
     {
-        rigidbody = GetComponent<Rigidbody>();
+        rb = GetComponent<Rigidbody>();
         inputHandler = GetComponent<InputHandler>();
         cameraObj = Camera.main.transform;
         myTransform = transform;
@@ -46,9 +44,20 @@ public class PlayerLocomotion : MonoBehaviour
 
         Vector3 projectedVelocity = Vector3.ProjectOnPlane(moveDirection, normalVector);
 
-        rigidbody.velocity = projectedVelocity;
+        rb.velocity = projectedVelocity;
 
-        HandleRotation(delta);
+        /*
+        float distanciaCercana = Vector3.Distance(transform.position, Attractor.Attractors[0].transform.position);
+        int planetaCercano = 0;
+        for (int i = 0; i < length; i++)
+        {
+            float distAux = Vector3.Distance(transform.position, )
+        }
+        */
+
+        //myTransform.rotation = Quaternion.FromToRotation(transform.up, )
+
+        //HandleRotation(delta);
 
         #region StateMachine
 
