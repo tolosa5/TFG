@@ -10,43 +10,7 @@ public class WindArea : MonoBehaviour
     public float strenght;
 
     Rigidbody playerRb;
-
-    public int myId;
-
-    private void OnEnable()
-    {
-        //EventManager.OnPresionClose += Desactivate;
-        //EventManager.OnPresionOpen += Activate;
-    }
-
-    private void OnDisable()
-    {
-        //EventManager.OnPresionClose -= Desactivate;
-        //EventManager.OnPresionOpen -= Activate;
-    }
-
-    void Start()
-    {
-        directionSave = direction;
-    }
-
-    void Desactivate(int id)
-    {
-        Debug.Log("desactivate");
-        if (myId == id)
-        {
-            direction = Vector3.zero;
-        }
-    }
-
-    void Activate(int id)
-    {
-        Debug.Log("activate");
-        if (myId == id)
-        {
-            direction = directionSave;
-        }
-    }
+    
 
     void OnTriggerStay(Collider other)
     {

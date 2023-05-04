@@ -12,7 +12,10 @@ public class BlackHole : MonoBehaviour
     [HideInInspector]
     public Vector3 objInnercia;
 
+    Rigidbody objRb;
+
     public static List<BlackHole> BlackHoles;
+    [SerializeField] GameObject whiteHole;
 
 
     private void OnEnable() 
@@ -34,8 +37,20 @@ public class BlackHole : MonoBehaviour
     {
         EventManager.BlackHoleTriggerEnter(triggerId);
         obj = other.gameObject;
+        Debug.Log("entrando");
 
-        Rigidbody objRb = obj.GetComponent<Rigidbody>();
-        objInnercia = objRb.velocity;
+        obj.transform.position = whiteHole.transform.position;
+
+        objRb = obj.GetComponent<Rigidbody>();
+        objRb.velocity /= 5;
+
+        StartCoroutine(DragWait());
+    }
+
+    IEnumerator DragWait()
+    {
+        objRb.drag = 1;
+        yield return new WaitForSeconds(0.5f);
+        objRb.drag = 0;
     }
 }
