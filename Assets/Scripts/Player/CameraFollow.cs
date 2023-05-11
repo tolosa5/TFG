@@ -16,7 +16,7 @@ public class CameraFollow : MonoBehaviour
 
     Transform pivot;
     Transform FollowRotationPivot;
-    public Transform camTransform;
+    Transform camTransform;
     private Camera CamUnit;
 
     Vector3 LookAtPos;
@@ -47,6 +47,7 @@ public class CameraFollow : MonoBehaviour
         pivot = camTransform.parent;
         LookAtPos = target.position;
         CurrentDis = DistanceFromPlayer;
+        camTransform = gameObject.transform;
 
         tiltAngle = 10f;
 
