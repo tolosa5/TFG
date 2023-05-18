@@ -1,4 +1,3 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
@@ -8,7 +7,7 @@ public class GravityBody : MonoBehaviour
     List<GravityArea> gravityAreas;
     Rigidbody rb;
     public static float GravityConstant = 800;
-
+    
     public Vector3 GravityDirection()
     {
         //si no hay gravityAreas, no hay gravedad
