@@ -11,7 +11,6 @@ public class PlayerMovement : MonoBehaviour
     Transform Cam;
     Transform CamY;
     //public ControlsPivot AxisPivot;
-    CameraFollow CamFol;
 
     DetectCollision Colli;
     [HideInInspector]
@@ -49,13 +48,12 @@ public class PlayerMovement : MonoBehaviour
         
         Cam = GameObject.FindGameObjectWithTag("MainCamera").transform;
         CamY = Cam.transform.parent.parent.transform;
-        CamFol = Cam.GetComponentInParent<CameraFollow>();
 
         //detatch rigidbody so it can move freely 
         rb.transform.parent = null;
     }
 
-    private void Update()   //inputs
+    private void Update()//inputs
     {
         transform.position = rb.position;
 
