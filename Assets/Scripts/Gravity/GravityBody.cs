@@ -16,7 +16,19 @@ public class GravityBody : MonoBehaviour
         //comprobar cual de las en las que estas es mas fuerte/importante
         gravityAreas.Sort((area1, area2) => area1.Priority.CompareTo(area2.Priority));
         return gravityAreas.Last().GetGravityDirection(this).normalized;
-        
+        /*
+        float nearDist = Vector3.Distance(transform.position, gravityAreas[0].transform.position);
+        int nearArea = 0;
+        for (int i = 0; i < gravityAreas.Count; i++)
+        {
+            float distAux = Vector3.Distance(transform.position, gravityAreas[i].transform.position);
+            if(distAux < nearDist)
+            {
+                nearDist = distAux;
+                nearArea = i;
+            }
+        }
+        */
     }
 
     private void Start() 
@@ -27,10 +39,12 @@ public class GravityBody : MonoBehaviour
 
     private void FixedUpdate() 
     {
+        //aplicar la fuerza
         rb.AddForce(GravityDirection() * (GravityConstant * Time.fixedDeltaTime), ForceMode.Acceleration);
 
+        //rotacion segun el punto desde el que se de la gravedad al cuerpo segun su posicion
         Quaternion upRotation = Quaternion.FromToRotation(transform.up, -GravityDirection());
-        Quaternion newRotation = Quaternion.Slerp(rb.rotation, upRotation * rb.rotation, Time.fixedDeltaTime * 3f);;
+        Quaternion newRotation = Quaternion.Slerp(rb.rotation, upRotation * rb.rotation, Time.fixedDeltaTime * 3f);
         rb.MoveRotation(newRotation);
     }
 

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-//abstract class para permitir la existencia del GravityDirecion
+//abstract class para permitir la existencia de una funcion sin cuerpo
 public abstract class GravityArea : MonoBehaviour
 {
     [SerializeField] int priority;
