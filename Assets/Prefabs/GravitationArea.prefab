@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 151847965497553277}
   - component: {fileID: 151847965497553278}
   - component: {fileID: 151847965497553279}
-  - component: {fileID: 1884317033777331968}
+  - component: {fileID: 2833449672697921320}
   - component: {fileID: 151847965497553265}
   m_Layer: 0
   m_Name: GravitationArea
@@ -85,7 +85,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1884317033777331968
+--- !u!114 &2833449672697921320
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -94,7 +94,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 151847965497553266}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c3499c47c53e6084d8756d02a6c10f02, type: 3}
+  m_Script: {fileID: 11500000, guid: 33f80b59fec95394ca1220989c36b7a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   priority: 0

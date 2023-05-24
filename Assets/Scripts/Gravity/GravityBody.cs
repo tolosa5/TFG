@@ -43,9 +43,7 @@ public class GravityBody : MonoBehaviour
         rb.AddForce(GravityDirection() * (GravityConstant * Time.fixedDeltaTime), ForceMode.Acceleration);
 
         //rotacion segun el punto desde el que se de la gravedad al cuerpo segun su posicion
-        Quaternion upRotation = Quaternion.FromToRotation(transform.up, -GravityDirection());
-        Quaternion newRotation = Quaternion.Slerp(rb.rotation, upRotation * rb.rotation, Time.fixedDeltaTime * 3f);
-        rb.MoveRotation(newRotation);
+        transform.rotation = Quaternion.FromToRotation(transform.up, -GravityDirection()) * transform.rotation;
     }
 
     public void AddGravityArea(GravityArea gravityArea)

@@ -13,7 +13,7 @@ public abstract class GravityArea : MonoBehaviour
 
     public abstract Vector3 GetGravityDirection(GravityBody gravityBody);
 
-    private void OnTriggerEnter(Collider other) 
+    private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out GravityBody gravityBody))
         {
@@ -21,7 +21,7 @@ public abstract class GravityArea : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other) 
+    private void OnTriggerExit(Collider other)
     {
         if (other.TryGetComponent(out GravityBody gravityBody))
         {

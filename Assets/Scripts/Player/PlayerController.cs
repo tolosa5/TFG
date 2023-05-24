@@ -6,7 +6,7 @@ public class PlayerController : MonoBehaviour
 {
     [SerializeField] LayerMask groundMask;
     [SerializeField] Transform groundCheck;
-    Animator anim;
+    [SerializeField] Animator anim;
 
     float groundCheckRadius = 0.3f;
     float speed = 8;
@@ -23,7 +23,7 @@ public class PlayerController : MonoBehaviour
     private void Start() 
     {
         rb = GetComponent<Rigidbody>();
-        gravityBodyScr = GetComponent<GravityBody>();   
+        gravityBodyScr = GetComponent<GravityBody>();
     }
 
     private void Update() 
@@ -37,6 +37,8 @@ public class PlayerController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Space) && onGround)
         {
             rb.AddForce(gravityBodyScr.GravityDirection() * jumpForce, ForceMode.Impulse);
+            anim.SetTrigger("Jump");
+            if (onGround) anim.SetTrigger("Fall");
         }
     }
 
@@ -46,12 +48,17 @@ public class PlayerController : MonoBehaviour
 
         if(isRunning)
         {
+            anim.SetBool("Walking", true);
             Vector3 directionAux = transform.forward * direction.z;
             rb.MovePosition(rb.position + direction * (speed * Time.fixedDeltaTime));
 
             Quaternion rightDirection = Quaternion.Euler(0f, direction.x * (turnSpeed * Time.fixedDeltaTime), 0f);
             Quaternion newRotation = Quaternion.Slerp(rb.rotation, rb.rotation * rightDirection, Time.fixedDeltaTime * 3f);;
             rb.MoveRotation(newRotation);
-        }    
+        }
+        else 
+        {
+            anim.SetBool("Walking", false);
+        }
     }
 }

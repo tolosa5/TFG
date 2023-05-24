@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 8618171415514479726}
   - component: {fileID: 8618171415514479727}
   - component: {fileID: 8618171415514479720}
-  - component: {fileID: 8618171415514479715}
   - component: {fileID: 8618171415514479724}
   m_Layer: 3
   m_Name: Planeta
@@ -30,11 +29,11 @@ Transform:
   m_GameObject: {fileID: 8618171415514479721}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -10.04, y: 10.52, z: 15.5}
-  m_LocalScale: {x: 22.820793, y: 22.820793, z: 22.820793}
+  m_LocalScale: {x: 18.786533, y: 18.786533, z: 18.786533}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8618171415514479726
 MeshFilter:
@@ -99,19 +98,6 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8618171415514479715
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8618171415514479721}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c530af30c5d67464e9073f4b0e6d02e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  rb: {fileID: 8618171415514479724}
 --- !u!54 &8618171415514479724
 Rigidbody:
   m_ObjectHideFlags: 0
