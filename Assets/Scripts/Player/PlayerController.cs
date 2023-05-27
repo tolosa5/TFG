@@ -4,13 +4,15 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController instance;
+
     [SerializeField] LayerMask groundMask;
     [SerializeField] Transform groundCheck;
     [SerializeField] Animator anim;
 
     float groundCheckRadius = 0.3f;
     float speed = 8;
-    float turnSpeed = 1500f;
+    float turnSpeed = 1800f;
     float jumpForce = 500f;
 
     float h, v;
@@ -20,10 +22,32 @@ public class PlayerController : MonoBehaviour
 
     GravityBody gravityBodyScr;
 
+    #region Jetpack
+    [Header("JetPack")]
+    [SerializeField] float maxFuel = 4f;
+    [SerializeField] float force = 0.5f;
+    [SerializeField] ParticleSystem effect;
+    public float currentFuel;
+
+    #endregion
+
+    private void Awake() 
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
+
     private void Start() 
     {
         rb = GetComponent<Rigidbody>();
         gravityBodyScr = GetComponent<GravityBody>();
+        currentFuel = maxFuel;
     }
 
     private void Update() 
@@ -31,14 +55,33 @@ public class PlayerController : MonoBehaviour
         h = Input.GetAxisRaw("Horizontal");
         v = Input.GetAxisRaw("Vertical");
 
-        direction = new Vector3(h, 0, v);
+        direction = new Vector3(h, 0, v).normalized;
         bool onGround = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
 
         if (Input.GetKeyDown(KeyCode.Space) && onGround)
         {
-            rb.AddForce(gravityBodyScr.GravityDirection() * jumpForce, ForceMode.Impulse);
+            rb.AddForce(-gravityBodyScr.GravityDirection() * jumpForce, ForceMode.Impulse);
             anim.SetTrigger("Jump");
-            if (onGround) anim.SetTrigger("Fall");
+            if (Input.GetAxis("Jump") > 0f && currentFuel > 0f)
+            {
+                currentFuel -= Time.deltaTime;
+                rb.AddForce(rb.transform.up * force, ForceMode.Impulse);
+                //effect.Play();
+            }
+            else if (onGround && currentFuel < maxFuel)
+            {
+                currentFuel += Time.deltaTime;
+                //effect.Stop();
+            }
+            else
+            {
+                //effect.Stop();
+                anim.SetTrigger("Fall");
+            }
+            if (onGround)
+            {
+                anim.SetTrigger("Fall");
+            }
         }
     }
 
