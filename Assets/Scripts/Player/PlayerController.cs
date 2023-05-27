@@ -13,7 +13,7 @@ public class PlayerController : MonoBehaviour
     float groundCheckRadius = 0.3f;
     float speed = 8;
     float turnSpeed = 1800f;
-    float jumpForce = 500f;
+    float jumpForce = 300f;
 
     float h, v;
 
@@ -62,7 +62,10 @@ public class PlayerController : MonoBehaviour
         {
             rb.AddForce(-gravityBodyScr.GravityDirection() * jumpForce, ForceMode.Impulse);
             anim.SetTrigger("Jump");
-            if (Input.GetAxis("Jump") > 0f && currentFuel > 0f)
+            
+        }
+
+        if (Input.GetKey(KeyCode.Space) && !onGround && currentFuel > 0f)
             {
                 currentFuel -= Time.deltaTime;
                 rb.AddForce(rb.transform.up * force, ForceMode.Impulse);
@@ -78,11 +81,11 @@ public class PlayerController : MonoBehaviour
                 //effect.Stop();
                 anim.SetTrigger("Fall");
             }
+
             if (onGround)
             {
                 anim.SetTrigger("Fall");
             }
-        }
     }
 
     private void FixedUpdate() 
@@ -92,11 +95,13 @@ public class PlayerController : MonoBehaviour
         if(isRunning)
         {
             anim.SetBool("Walking", true);
-            Vector3 directionAux = transform.forward * direction.z;
-            rb.MovePosition(rb.position + direction * (speed * Time.fixedDeltaTime));
+            Vector3 directionUp = transform.forward * direction.z;
+            Vector3 directionRight = transform.right * direction.x;
+            Vector3 directionAux = directionUp + directionRight;
+            rb.MovePosition(rb.position + directionAux * (speed * Time.fixedDeltaTime));
 
             Quaternion rightDirection = Quaternion.Euler(0f, direction.x * (turnSpeed * Time.fixedDeltaTime), 0f);
-            Quaternion newRotation = Quaternion.Slerp(rb.rotation, rb.rotation * rightDirection, Time.fixedDeltaTime * 3f);;
+            Quaternion newRotation = Quaternion.Slerp(rb.rotation, rb.rotation * rightDirection, Time.fixedDeltaTime * 2f);
             rb.MoveRotation(newRotation);
         }
         else 
