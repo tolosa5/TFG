@@ -17,6 +17,8 @@ public class PlayerController : MonoBehaviour
 
     float h, v;
 
+    bool onGround;
+
     Rigidbody rb;
     Vector3 direction;
 
@@ -25,7 +27,7 @@ public class PlayerController : MonoBehaviour
     #region Jetpack
     [Header("JetPack")]
     [SerializeField] float maxFuel = 4f;
-    [SerializeField] float force = 0.5f;
+    [SerializeField] float force = 20f;
     [SerializeField] ParticleSystem effect;
     public float currentFuel;
 
@@ -52,40 +54,78 @@ public class PlayerController : MonoBehaviour
 
     private void Update() 
     {
-        h = Input.GetAxisRaw("Horizontal");
-        v = Input.GetAxisRaw("Vertical");
+        Directions();
+        JetPack();
 
-        direction = new Vector3(h, 0, v).normalized;
-        bool onGround = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
+        onGround = Physics.CheckSphere(groundCheck.position, groundCheckRadius, groundMask);
 
         if (Input.GetKeyDown(KeyCode.Space) && onGround)
         {
             rb.AddForce(-gravityBodyScr.GravityDirection() * jumpForce, ForceMode.Impulse);
             anim.SetTrigger("Jump");
-            
         }
 
-        if (Input.GetKey(KeyCode.Space) && !onGround && currentFuel > 0f)
-            {
-                currentFuel -= Time.deltaTime;
-                rb.AddForce(rb.transform.up * force, ForceMode.Impulse);
-                //effect.Play();
-            }
-            else if (onGround && currentFuel < maxFuel)
-            {
-                currentFuel += Time.deltaTime;
-                //effect.Stop();
-            }
-            else
-            {
-                //effect.Stop();
-                anim.SetTrigger("Fall");
-            }
+        if (onGround)
+        {
+            anim.SetTrigger("Fall");
+            Debug.Log("caer");
+        }
 
-            if (onGround)
-            {
-                anim.SetTrigger("Fall");
-            }
+    }
+
+    void Directions()
+    {
+        h = Input.GetAxisRaw("Horizontal");
+        v = Input.GetAxisRaw("Vertical");
+
+        direction = new Vector3(h, 0, v).normalized;
+    }
+
+    void JetPack()
+    {
+        #region Up
+        if (Input.GetKey(KeyCode.Space) && !onGround && currentFuel > 0f)
+        {
+            currentFuel -= Time.deltaTime;
+            rb.AddForce(rb.transform.up * force, ForceMode.Acceleration);
+            //effect.Play();
+            Debug.Log("volar");
+        }
+        else if (onGround && currentFuel < maxFuel)
+        {
+            currentFuel += Time.deltaTime;
+            //effect.Stop();
+            Debug.Log("recargando");
+        }
+        else
+        {
+            //effect.Stop();
+            anim.SetTrigger("Fall");
+        }
+        
+        #endregion
+
+        #region Down
+        if (Input.GetKey(KeyCode.LeftShift) && !onGround && currentFuel > 0f)
+        {
+            currentFuel -= Time.deltaTime;
+            rb.AddForce(-rb.transform.up * force, ForceMode.Acceleration);
+            //effect.Play();
+            Debug.Log("volar");
+        }
+        else if (onGround && currentFuel < maxFuel)
+        {
+            currentFuel += Time.deltaTime;
+            //effect.Stop();
+            Debug.Log("recargando");
+        }
+        else
+        {
+            //effect.Stop();
+            anim.SetTrigger("Fall");
+        }
+
+        #endregion
     }
 
     private void FixedUpdate() 
@@ -94,7 +134,8 @@ public class PlayerController : MonoBehaviour
 
         if(isRunning)
         {
-            anim.SetBool("Walking", true);
+            if (onGround) anim.SetBool("Walking", true);
+
             Vector3 directionUp = transform.forward * direction.z;
             Vector3 directionRight = transform.right * direction.x;
             Vector3 directionAux = directionUp + directionRight;
