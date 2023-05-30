@@ -11,6 +11,12 @@ public abstract class GravityArea : MonoBehaviour
         GetComponent<Collider>().isTrigger = true;
     }
 
+    private void OnDrawGizmos() 
+    {
+        Gizmos.matrix = transform.localToWorldMatrix;
+        Gizmos.DrawWireSphere(Vector3.zero, .5f);
+    }
+
     public abstract Vector3 GetGravityDirection(GravityBody gravityBody);
 
     private void OnTriggerEnter(Collider other)
