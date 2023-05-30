@@ -50,6 +50,8 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         gravityBodyScr = GetComponent<GravityBody>();
         currentFuel = maxFuel;
+
+        rb.constraints = RigidbodyConstraints.FreezeRotation;
     }
 
     private void Update() 
@@ -134,16 +136,21 @@ public class PlayerController : MonoBehaviour
 
         if(isRunning)
         {
-            if (onGround) anim.SetBool("Walking", true);
-
+            #region  Movement
             Vector3 directionUp = transform.forward * direction.z;
             Vector3 directionRight = transform.right * direction.x;
             Vector3 directionAux = directionUp + directionRight;
             rb.MovePosition(rb.position + directionAux * (speed * Time.fixedDeltaTime));
 
-            Quaternion rightDirection = Quaternion.Euler(0f, direction.x * (turnSpeed * Time.fixedDeltaTime), 0f);
-            Quaternion newRotation = Quaternion.Slerp(rb.rotation, rb.rotation * rightDirection, Time.fixedDeltaTime * 2f);
-            rb.MoveRotation(newRotation);
+            #endregion
+
+            #region Rotation
+            Quaternion toRotation = Quaternion.FromToRotation(direction, Vector3.up);
+            transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, 2 * Time.fixedDeltaTime);
+
+            #endregion
+
+            if (onGround) anim.SetBool("Walking", true);
         }
         else 
         {
