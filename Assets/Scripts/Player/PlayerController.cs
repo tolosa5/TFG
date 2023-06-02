@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    #region Public Variables
     public static PlayerController instance;
 
     [SerializeField] LayerMask groundMask;
     [SerializeField] Transform groundCheck;
     [SerializeField] Animator anim;
 
+    #endregion
+
+    #region Private Variables
     float groundCheckRadius = 0.3f;
-    float speed = 8;
-    float turnSpeed = 1800f;
+    float speed = 6;
     float jumpForce = 300f;
 
     float h, v;
@@ -24,6 +27,8 @@ public class PlayerController : MonoBehaviour
 
     GravityBody gravityBodyScr;
 
+    #endregion
+
     #region Jetpack
     [Header("JetPack")]
     [SerializeField] float maxFuel = 4f;
@@ -32,7 +37,7 @@ public class PlayerController : MonoBehaviour
     public float currentFuel;
 
     #endregion
-
+    
     private void Awake() 
     {
         if (instance == null)
@@ -50,8 +55,6 @@ public class PlayerController : MonoBehaviour
         rb = GetComponent<Rigidbody>();
         gravityBodyScr = GetComponent<GravityBody>();
         currentFuel = maxFuel;
-
-        rb.constraints = RigidbodyConstraints.FreezeRotation;
     }
 
     private void Update() 
@@ -137,16 +140,19 @@ public class PlayerController : MonoBehaviour
         if(isRunning)
         {
             #region  Movement
+            
             Vector3 directionUp = transform.forward * direction.z;
             Vector3 directionRight = transform.right * direction.x;
             Vector3 directionAux = directionUp + directionRight;
-            rb.MovePosition(rb.position + directionAux * (speed * Time.fixedDeltaTime));
+            
+            rb.MovePosition(transform.position + directionAux * (speed * Time.fixedDeltaTime));
 
             #endregion
 
             #region Rotation
-            Quaternion toRotation = Quaternion.FromToRotation(direction, Vector3.up);
-            transform.rotation = Quaternion.Lerp(transform.rotation, toRotation, 2 * Time.fixedDeltaTime);
+
+            Quaternion toRotation = Quaternion.LookRotation(direction, transform.up);
+            transform.rotation = Quaternion.Slerp(transform.rotation, toRotation, 3 * Time.fixedDeltaTime);
 
             #endregion
 
