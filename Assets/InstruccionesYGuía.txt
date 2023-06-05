@@ -1,0 +1,9 @@
+Instrucciones y guía
+
+WASD moverse
+Espacio saltar
+Doble espacio y mantener el segundo input para activar el jetpack
+
+Al el personaje hacer un giro, si miras en una direccion y caminas hacia adelante, camina hacia el eje Z positivo, 
+no hacia donde mire. Esto funciona asi por la naturaleza propia del movimiento. Requiere algo de práctica acostumbrarse,
+así como a todos los movimientos, pero es fácilmente pasable de principio a fin una vez se usen unos 5-10 min.
